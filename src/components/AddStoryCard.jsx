@@ -5,12 +5,12 @@ const AddStoryCard = ({ onAddClick }) => {
   return (
     <div
       onClick={onAddClick}
-      className="bg-primary-ui rounded-2xl p-6 m-4 flex flex-col items-center justify-center text-center cursor-pointer shadow-md hover:shadow-lg transition-shadow"
+      className="bg-brand-bright rounded-2xl p-6 m-4 flex flex-col items-center justify-center text-center cursor-pointer shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
     >
-      <div className="border-2 border-dashed border-white rounded-full p-4">
+      <div className="bg-white/20 rounded-full p-4 mb-4">
         <Pencil className="text-white" size={40} />
       </div>
-      <p className="mt-4 text-white font-bold text-lg tracking-wider">
+      <p className="text-white font-bold text-lg tracking-wider">
         ADD TODAY'S STORY
       </p>
     </div>

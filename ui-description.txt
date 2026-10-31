@@ -1,0 +1,105 @@
+Here is a detailed, structured UI/UX description optimized for coding agents (like React/Flutter/Swift developers) to reimplement the "Journals" mobile application flow shown in the video.
+
+---
+
+## 1. Overview & Architecture
+
+* **App Concept**: A mobile Journaling application featuring a main dashboard with filterable tabs (Published vs. Drafts), a card-based feed, a detailed view for reading/editing posts, a category selector, and a success publication screen.
+* **Color Palette**:
+* Primary Theme / Accents: Deep Purple/Magenta (`#5B2D53` or similar deep violet) and Bright Magenta/Pink (`#D81B60` or `#E91E63`) for action buttons.
+* Neutral Backgrounds: Crisp white (`#FFFFFF`) for main list views and light neutral/lavender backgrounds.
+
+
+* **Typography**: Clean, modern sans-serif typeface with large bold headers for titles and regular weights for body text and timestamps.
+
+---
+
+## 2. Screen-by-Screen Specifications
+
+### Screen A: Main Dashboard ("Journals")
+
+* **Header Section**:
+* Title: "Journals" (Large bold header).
+
+
+* Subtitle/Counter: "16 JOURNALS" (Small uppercase text).
+
+
+* Action Button: Floating Action Button (FAB) or top-right circular button with a plus icon (`+`) in a pink/magenta pill background for creating a new journal entry.
+
+
+
+
+* **Filter Segmented Control / Tabs**:
+* Options: **Published** (active by default, with dark pill background) and **Drafts (1)** (shows badge count).
+
+
+
+
+* **Feed / Scrollable List (Cards)**:
+* Layout: Single-column vertical scroll view containing rounded rectangular cards.
+* Card Structure:
+* **Illustration/Image**: Custom vector illustration or photo on top/side of the card (e.g., people traveling, taking photos, working, or cycling).
+
+
+* **Card Title**: Bold text describing the entry (e.g., *“My first trip with my partner”*, *“Street Photography Journal”*, *“First day at office, very nervous”*, *“Cycling and enjoy the city view”*).
+
+
+* **Timestamp**: Relative time indicator underneath the title (e.g., *“2 days ago”*, *“5 days ago”*).
+
+
+* **More Options Menu**: Three-dot icon (`...`) in the top-right corner of each card.
+
+
+
+
+
+
+
+### Screen B: Create / Edit Journal View
+
+* **Top Navigation Bar**:
+* Back arrow icon on the left.
+* Title: "Create Journal".
+* Right Action: "Publish" button (solid magenta pill button).
+
+
+* **Form Elements**:
+* **Title Input**: Large text field (e.g., *“Cycling and enjoy the city view”*).
+* **Date Picker**: "+ Add Date" button/field.
+* **Body Text**: Rich text description area with placeholder/sample text.
+* **Media Attachments**: Horizontal or grid layout displaying uploaded photos with options to manage or add more.
+
+
+* **Bottom Sheet / Modal (Choose Category)**:
+* Triggered while editing/creating.
+* Header: "Choose Category".
+* Options (Horizontal scroll or grid icons): **Holiday**, **Surprise**, **Daily Life**, **Sports**.
+* Toggle Switch: "Disable Comments" with an active purple toggle switch.
+* Action Button: "Edit Draft" (magenta pill button at the bottom of the sheet).
+
+
+
+### Screen C: Journal Published Success View
+
+* **Layout**: Centered confirmation screen with a rich purple background header section.
+* **Content Elements**:
+* Top illustration featuring the journal topic (e.g., person with a bicycle).
+* Title: "Journal Published" (Bold, white text).
+* Subtitle Message: *“Congratulations for publishing your journal. Now everyone can read your story. Thanks for sharing”*.
+
+
+* **Action Buttons**:
+* Primary Button: "Read the Journal" (Solid pink/magenta rounded pill button).
+* Secondary Action: "Back to Journal list" (Text link button).
+
+
+
+---
+
+## 3. Interactive State Transitions & Animations
+
+1. **Tab Switching**: Tapping between **Published** and **Drafts** smoothly animates the pill background selector, filtering the underlying card list.
+2. **Card Tap / Creation Flow**: Tapping the `+` button or a card transitions smoothly into the **Create/Edit Journal** screen via a slide-up or push navigation animation.
+3. **Category Selection Sheet**: Tapping category options slides up a modal bottom sheet with backdrop dimming.
+4. **Publish Action**: Tapping "Publish" transitions the user to the celebration success screen, offering immediate paths back to the dashboard or to view the live entry.

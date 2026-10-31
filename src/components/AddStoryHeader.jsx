@@ -5,8 +5,8 @@ const AddStoryHeader = ({ onClose }) => {
   return (
     <header className="flex items-center justify-between p-4 bg-primary-background shadow-sm">
       <div className="flex items-center gap-2">
-        <Bot className="text-accent" size={28} />
-        <span className="text-lg font-bold text-primary-text">New Story</span>
+        <Bot className="text-brand-accent" size={28} />
+        <span className="text-lg font-bold text-primary-text">New Story</span >
       </div>
       <div className="flex items-center gap-4">
         <span className="text-secondary-text font-medium">12:30</span>

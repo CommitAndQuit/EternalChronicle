@@ -1,0 +1,28 @@
+{
+  "name": "Eternal Chronicle — Private Journal",
+  "short_name": "Eternal Chronicle",
+  "description": "A private, local browser-based personal journal.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF9F8",
+  "theme_color": "#FAF9F8",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["lifestyle", "productivity"],
+  "lang": "en-US",
+  "dir": "ltr"
+}

@@ -4,7 +4,7 @@ import { Pencil, Waves, User, MessageSquare } from 'lucide-react';
 const NavigationBar = () => {
   return (
     <nav className="flex items-center justify-around p-3 bg-primary-background border-t border-gray-200">
-      <button className="flex flex-col items-center text-accent">
+      <button className="flex flex-col items-center text-brand-accent">
         <Pencil size={24} />
         <span className="text-xs font-medium">Write</span>
       </button>

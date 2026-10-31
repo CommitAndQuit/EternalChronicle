@@ -9,7 +9,7 @@ const StoryInput = ({ value, onChange }) => {
         placeholder="Tell your story..."
         className="w-full h-full p-2 text-lg text-primary-text bg-transparent border-none focus:ring-0 resize-none leading-relaxed"
         style={{
-          backgroundImage: 'linear-gradient(to bottom, transparent 29px, #E0F2FE 30px)',
+          backgroundImage: 'linear-gradient(to bottom, transparent 29px, #F3F4F6 30px)',
           backgroundSize: '100% 30px',
           lineHeight: '30px',
         }}

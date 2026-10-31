@@ -123,3 +123,8 @@ dist
 *.njsproj
 *.sln
 *.sw?
+
+# Local temporary files & reference media
+.tmp/
+*.mp4
+
