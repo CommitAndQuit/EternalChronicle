@@ -50,6 +50,22 @@ export const illustrationFor = (key) => ILLUSTRATIONS[key] || ILLUSTRATIONS.cycl
 
 export const accentFor = (key) => illustrationFor(key).accent;
 
+// Used to give each newly created journal its own backdrop instead of
+// repeating the same purple for every entry.
+export const ACCENT_COLORS = [
+  '#A0574B', // terracotta
+  '#4E6478', // slate blue
+  '#66794F', // olive
+  '#8B5A73', // mauve
+  '#3E5C54', // pine
+  '#7A5B3E', // umber
+  '#4C4A75', // indigo
+  '#5E3474', // plum
+];
+
+export const nextAccentColor = (index = 0) =>
+  ACCENT_COLORS[((index % ACCENT_COLORS.length) + ACCENT_COLORS.length) % ACCENT_COLORS.length];
+
 export const createId = () =>
   `journal-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
 

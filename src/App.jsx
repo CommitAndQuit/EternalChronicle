@@ -4,7 +4,7 @@ import AppShell from './components/journal/AppShell';
 import Dashboard from './components/journal/Dashboard';
 import JournalView from './components/journal/JournalView';
 import useJournals from './hooks/useJournals';
-import { createEmptyJournal } from './data/seedJournals';
+import { createEmptyJournal, nextAccentColor } from './data/seedJournals';
 
 const VIEW = {
   DASHBOARD: 'dashboard',
@@ -34,7 +34,9 @@ function App() {
   };
 
   const handleAdd = () => {
-    const journal = createEmptyJournal();
+    const journal = createEmptyJournal({
+      accentColor: nextAccentColor(journals.length),
+    });
     addJournal(journal);
     setActiveId(journal.id);
     setStartEditing(true);
