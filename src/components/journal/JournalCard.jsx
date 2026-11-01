@@ -2,9 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { cardImage } from '../../lib/images';
 import { relativeTime } from '../../lib/time';
-import MoreMenu from './MoreMenu';
 
-export default function JournalCard({ journal, onOpen, onPublish, onDelete }) {
+export default function JournalCard({ journal, onOpen }) {
   const time = relativeTime(journal.publishedAt || journal.updatedAt || journal.createdAt);
 
   return (
@@ -36,15 +35,6 @@ export default function JournalCard({ journal, onOpen, onPublish, onDelete }) {
         onClick={() => onOpen(journal)}
         className="absolute inset-0 z-10 rounded-[22px] outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-white/80"
       />
-
-      <div className="absolute right-2.5 top-2.5 z-20">
-        <MoreMenu
-          journal={journal}
-          onOpen={() => onOpen(journal)}
-          onPublish={() => onPublish(journal)}
-          onDelete={() => onDelete(journal)}
-        />
-      </div>
     </motion.article>
   );
 }

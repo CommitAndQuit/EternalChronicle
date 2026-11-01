@@ -2,17 +2,13 @@ import React, { useRef, useState } from 'react';
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
 import AppShell from './components/journal/AppShell';
 import Dashboard from './components/journal/Dashboard';
-import CoverEditor from './components/journal/CoverEditor';
-import DetailView from './components/journal/DetailView';
-import SuccessView from './components/journal/SuccessView';
+import JournalView from './components/journal/JournalView';
 import useJournals from './hooks/useJournals';
 import { createEmptyJournal } from './data/seedJournals';
 
 const VIEW = {
   DASHBOARD: 'dashboard',
-  COVER: 'cover',
-  DETAIL: 'detail',
-  SUCCESS: 'success',
+  JOURNAL: 'journal',
 };
 
 function App() {
@@ -21,79 +17,46 @@ function App() {
     ready,
     addJournal,
     updateJournal,
-    publishJournal,
     deleteJournal,
     importJournals,
   } = useJournals();
   const [view, setView] = useState(VIEW.DASHBOARD);
   const [activeId, setActiveId] = useState(null);
-  const [tab, setTab] = useState('published');
+  const [startEditing, setStartEditing] = useState(false);
   const scrollRef = useRef(null);
 
   const activeJournal = journals.find((journal) => journal.id === activeId) || null;
 
   const handleOpen = (journal) => {
     setActiveId(journal.id);
-    if (journal.status === 'draft') {
-      setTab('drafts');
-      setView(VIEW.COVER);
-    } else {
-      setView(VIEW.DETAIL);
-    }
+    setStartEditing(false);
+    setView(VIEW.JOURNAL);
   };
 
   const handleAdd = () => {
-    const draft = createEmptyJournal();
-    addJournal(draft);
-    setActiveId(draft.id);
-    setTab('drafts');
-    setView(VIEW.COVER);
+    const journal = createEmptyJournal();
+    addJournal(journal);
+    setActiveId(journal.id);
+    setStartEditing(true);
+    setView(VIEW.JOURNAL);
   };
 
   const handleSave = (journal) => {
     updateJournal(journal);
-  };
-
-  const handlePublish = (journal) => {
-    const published = publishJournal(journal);
-    setActiveId(published.id);
-    setTab('published');
-    setView(VIEW.SUCCESS);
-    window.requestAnimationFrame(() => scrollRef.current?.scrollTo({ top: 0 }));
-  };
-
-  const handleCardMenu = (journal) => {
-    if (journal.status === 'draft') {
-      handlePublish(journal);
-    } else {
-      setActiveId(journal.id);
-      setView(VIEW.COVER);
-    }
+    setStartEditing(false);
   };
 
   const handleDelete = (journal) => {
     deleteJournal(journal.id);
     setActiveId(null);
+    setStartEditing(false);
     setView(VIEW.DASHBOARD);
-  };
-
-  const handleRead = (journal) => {
-    if (journal) {
-      updateJournal(journal);
-      setActiveId(journal.id);
-    }
-    setView(VIEW.DETAIL);
   };
 
   const handleBackToDashboard = () => {
     setView(VIEW.DASHBOARD);
     setActiveId(null);
-  };
-
-  const handleBackFromSuccess = () => {
-    setView(VIEW.DASHBOARD);
-    setActiveId(null);
-    setTab('published');
+    setStartEditing(false);
   };
 
   return (
@@ -103,12 +66,8 @@ function App() {
           {ready ? (
             <Dashboard
               journals={journals}
-              tab={tab}
-              onTabChange={setTab}
               onOpen={handleOpen}
               onAdd={handleAdd}
-              onPublish={handleCardMenu}
-              onDelete={handleDelete}
               onImport={importJournals}
               scrollRef={scrollRef}
             />
@@ -117,37 +76,14 @@ function App() {
           )}
 
           <AnimatePresence initial={false}>
-            {view === VIEW.COVER && activeJournal && (
-              <CoverEditor
-                key={`cover-${activeJournal.id}`}
+            {view === VIEW.JOURNAL && activeJournal && (
+              <JournalView
+                key={`journal-${activeJournal.id}`}
                 journal={activeJournal}
+                startEditing={startEditing}
                 onBack={handleBackToDashboard}
                 onSave={handleSave}
-                onPublish={handlePublish}
                 onDelete={handleDelete}
-                onRead={handleRead}
-              />
-            )}
-
-            {view === VIEW.DETAIL && activeJournal && (
-              <DetailView
-                key={`detail-${activeJournal.id}`}
-                journal={activeJournal}
-                onBack={handleBackToDashboard}
-                onEdit={(journal) => {
-                  setActiveId(journal.id);
-                  setView(VIEW.COVER);
-                }}
-                onDelete={handleDelete}
-              />
-            )}
-
-            {view === VIEW.SUCCESS && activeJournal && (
-              <SuccessView
-                key={`success-${activeJournal.id}`}
-                journal={activeJournal}
-                onRead={() => handleRead(activeJournal)}
-                onBack={handleBackFromSuccess}
               />
             )}
           </AnimatePresence>

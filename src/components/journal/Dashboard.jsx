@@ -1,35 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Plus, ShieldCheck, Sparkles } from 'lucide-react';
-import FilterTabs from './FilterTabs';
 import JournalCard from './JournalCard';
 import LocalDataModal from './LocalDataModal';
 
-const byPublished = (a, b) =>
-  new Date(b.publishedAt || b.createdAt) - new Date(a.publishedAt || a.createdAt);
-const byUpdated = (a, b) => new Date(b.updatedAt || b.createdAt) - new Date(a.updatedAt || a.createdAt);
+const byRecent = (a, b) =>
+  new Date(b.publishedAt || b.updatedAt || b.createdAt) -
+  new Date(a.publishedAt || a.updatedAt || a.createdAt);
 
 export default function Dashboard({
   journals,
-  tab,
-  onTabChange,
   onOpen,
   onAdd,
-  onPublish,
-  onDelete,
   onImport,
   scrollRef,
 }) {
   const [localDataOpen, setLocalDataOpen] = useState(false);
   const reduceMotion = useReducedMotion();
-  const draftCount = journals.filter((journal) => journal.status === 'draft').length;
-  const items = (tab === 'published'
-    ? journals.filter((journal) => journal.status === 'published').sort(byPublished)
-    : journals.filter((journal) => journal.status === 'draft').sort(byUpdated));
-
-  useEffect(() => {
-    scrollRef?.current?.scrollTo({ top: 0 });
-  }, [tab, scrollRef]);
+  const items = [...journals].sort(byRecent);
 
   return (
     <div className="flex h-full flex-col bg-[#FAF9F8] text-[#0B0B0B]">
@@ -41,7 +29,7 @@ export default function Dashboard({
           <header className="flex items-end justify-between pb-5 pt-5 md:pb-9 md:pt-10">
             <div>
               <h1 className="text-[34px] font-normal leading-none tracking-[-0.045em] md:text-[56px] lg:text-[68px]">
-                Journals
+                Eternal Chronicle
               </h1>
               <div className="mt-2 flex items-center gap-2 md:mt-3">
                 <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-black/35 md:text-[12px] md:tracking-[0.22em]">
@@ -75,38 +63,23 @@ export default function Dashboard({
             </div>
           </header>
 
-          <div className="sticky top-0 z-30 bg-gradient-to-b from-[#FAF9F8] via-[#FAF9F8]/95 to-transparent py-2 pb-4">
-            <FilterTabs value={tab} onChange={onTabChange} draftCount={draftCount} />
-          </div>
-
           <div className="pb-28 pt-1 md:pb-32 md:pt-2">
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={tab}
-                initial={{ opacity: 0, y: reduceMotion ? 0 : 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: reduceMotion ? 0 : -6 }}
-                transition={{ duration: reduceMotion ? 0 : 0.18, ease: 'easeOut' }}
-                className="grid grid-cols-1 gap-3.5 md:grid-cols-2 md:gap-6 xl:grid-cols-3"
-              >
-                {items.map((journal) => (
-                  <JournalCard
-                    key={journal.id}
-                    journal={journal}
-                    onOpen={onOpen}
-                    onPublish={onPublish}
-                    onDelete={onDelete}
-                  />
-                ))}
+            <motion.div
+              initial={{ opacity: 0, y: reduceMotion ? 0 : 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: reduceMotion ? 0 : 0.18, ease: 'easeOut' }}
+              className="grid grid-cols-1 gap-3.5 md:grid-cols-2 md:gap-6 xl:grid-cols-3"
+            >
+              {items.map((journal) => (
+                <JournalCard
+                  key={journal.id}
+                  journal={journal}
+                  onOpen={onOpen}
+                />
+              ))}
 
-                {items.length === 0 && (
-                  <EmptyState
-                    tab={tab}
-                    onAdd={onAdd}
-                  />
-                )}
-              </motion.div>
-            </AnimatePresence>
+              {items.length === 0 && <EmptyState onAdd={onAdd} />}
+            </motion.div>
           </div>
         </div>
       </div>
@@ -121,19 +94,17 @@ export default function Dashboard({
   );
 }
 
-function EmptyState({ tab, onAdd }) {
+function EmptyState({ onAdd }) {
   return (
     <div className="flex flex-col items-center rounded-[24px] border border-dashed border-black/10 px-7 py-14 text-center md:col-span-2 md:py-20 xl:col-span-3">
       <span className="grid h-12 w-12 place-items-center rounded-full bg-[#F3E8ED] text-[#C2185B] md:h-14 md:w-14">
         <Sparkles size={21} strokeWidth={1.8} className="md:h-6 md:w-6" />
       </span>
       <p className="mt-4 text-[18px] font-medium tracking-[-0.02em] text-[#1C191C] md:text-[22px]">
-        {tab === 'drafts' ? 'No drafts waiting' : 'No journals yet'}
+        No journals yet
       </p>
       <p className="mt-1.5 max-w-[230px] text-[14px] leading-relaxed text-black/45 md:max-w-[320px] md:text-[15px]">
-        {tab === 'drafts'
-          ? 'Start something new. It will stay here until you are ready to save it.'
-          : 'Your saved stories will live here. Start with a small moment.'}
+        Your saved stories will live here. Start with a small moment.
       </p>
       <button
         type="button"
