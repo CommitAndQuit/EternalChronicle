@@ -8,6 +8,7 @@ This application provides a complete client-side journaling experience with the 
 
 ### Core Functionality
 - **Journal Entry Management**: Create, view, and organize journal entries
+- **Automatic Titles**: Entries are named from their content when saved, with a one-tap suggestion button and manual override
 - **Data Persistence**: Uses IndexedDB with localStorage fallback for reliable data storage
 - **Offline Capability**: Service worker enabled for offline functionality when installed as a PWA
 - **Media Attachments**: Support for images and audio attachments in journal entries

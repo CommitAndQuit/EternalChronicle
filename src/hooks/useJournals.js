@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { loadEntries, saveEntries } from '../storage';
 import { buildSeedJournals } from '../data/seedJournals';
+import { TITLE_MODEL, titleFor } from '../lib/title';
 
 const SEED_KEY = 'eternal-chronicle:journals:seeded:v1';
 
@@ -12,6 +13,30 @@ const isJournal = (entry) =>
       typeof entry.title === 'string' &&
       (entry.status === 'draft' || entry.status === 'published'),
   );
+
+// Make sure legacy entries and existing drafts always have a usable title.
+const backfillTitles = (entries) => {
+  let changed = false;
+  const next = entries.map((entry) => {
+    if (entry.title && entry.title.trim()) {
+      if (entry.titleSource) return entry;
+      changed = true;
+      return { ...entry, titleSource: 'user' };
+    }
+    changed = true;
+    return {
+      ...entry,
+      title: titleFor({
+        content: entry.content,
+        journalDate: entry.journalDate,
+        category: entry.category,
+      }),
+      titleSource: 'auto',
+      titleModel: TITLE_MODEL,
+    };
+  });
+  return { entries: next, changed };
+};
 
 let bootstrapPromise;
 
@@ -27,20 +52,25 @@ function bootstrap() {
         seeded = false;
       }
 
+      let initial = valid;
+      let shouldSave = false;
+
       if (!seeded) {
-        const initial = valid.length ? valid : buildSeedJournals();
+        initial = valid.length ? valid : buildSeedJournals();
         try {
           window.localStorage.setItem(SEED_KEY, '1');
         } catch {
           /* private mode */
         }
-        await saveEntries(initial);
-        return initial;
+        shouldSave = true;
       }
 
-      // Older prototypes stored entries without a status. Ignore those and
-      // start again from the current journal model.
-      return valid;
+      const backfilled = backfillTitles(initial);
+      initial = backfilled.entries;
+      shouldSave = shouldSave || backfilled.changed;
+
+      if (shouldSave) await saveEntries(initial);
+      return initial;
     })();
   }
   return bootstrapPromise;

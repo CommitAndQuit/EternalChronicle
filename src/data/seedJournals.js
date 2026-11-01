@@ -58,6 +58,8 @@ export function createEmptyJournal(overrides = {}) {
   return {
     id: createId(),
     title: '',
+    titleSource: 'auto',
+    titleModel: null,
     content: '',
     createdAt: now,
     updatedAt: now,
@@ -78,6 +80,7 @@ const isoDaysAgo = (days, hours = 9) =>
 const base = (overrides) => ({
   status: 'published',
   category: 'Daily Life',
+  titleSource: 'user',
   photos: [PHOTOS.fuji, PHOTOS.blossom],
   journalDate: '',
   ...overrides,
@@ -91,6 +94,7 @@ export function buildSeedJournals() {
       ...createEmptyJournal({
         id: 'journal-cycling-draft',
         title: 'Cycling and enjoy the city view',
+        titleSource: 'user',
         content:
           'Rode along the river path just before sunset. The city looked softer from the saddle — warm light on the bridges, laundry moving in the windows, someone practicing trumpet in an open courtyard.\n\nI stopped for a while near the old station and watched the evening settle in. No destination, no rush. Just the quiet hum of the wheels and a city I thought I already knew.',
         createdAt: cyclingCreated,
