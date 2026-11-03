@@ -1,46 +1,48 @@
+import { assetUrl } from '../lib/assets';
+
 const DAY = 24 * 60 * 60 * 1000;
 
 export const CATEGORIES = [
   {
     id: 'holiday',
     label: 'Holiday',
-    icon: '/assets/journal/categories/holiday.webp',
+    icon: assetUrl('/assets/journal/categories/holiday.webp'),
     tint: '#FBE6DB',
     ring: '#E58A69',
   },
   {
     id: 'surprise',
     label: 'Surprise',
-    icon: '/assets/journal/categories/surprise.webp',
+    icon: assetUrl('/assets/journal/categories/surprise.webp'),
     tint: '#E4E4E4',
     ring: '#B9B9B9',
   },
   {
     id: 'daily',
     label: 'Daily Life',
-    icon: '/assets/journal/categories/daily.webp',
+    icon: assetUrl('/assets/journal/categories/daily.webp'),
     tint: '#FBE6DB',
     ring: '#E58A69',
   },
   {
     id: 'sports',
     label: 'Sports',
-    icon: '/assets/journal/categories/sports.webp',
+    icon: assetUrl('/assets/journal/categories/sports.webp'),
     tint: '#E4E4E4',
     ring: '#B9B9B9',
   },
 ];
 
 export const ILLUSTRATIONS = {
-  travel: { src: '/assets/journal/cards/travel.webp', accent: '#A08C8E' },
-  photography: { src: '/assets/journal/cards/photography.webp', accent: '#546171' },
-  office: { src: '/assets/journal/cards/office.webp', accent: '#82A899' },
-  cycling: { src: '/assets/journal/cards/cycling.webp', accent: '#5E3474' },
+  travel: { src: assetUrl('/assets/journal/cards/travel.webp'), accent: '#A08C8E' },
+  photography: { src: assetUrl('/assets/journal/cards/photography.webp'), accent: '#546171' },
+  office: { src: assetUrl('/assets/journal/cards/office.webp'), accent: '#82A899' },
+  cycling: { src: assetUrl('/assets/journal/cards/cycling.webp'), accent: '#5E3474' },
 };
 
 export const PHOTOS = {
-  fuji: '/assets/journal/photos/fuji.webp',
-  blossom: '/assets/journal/photos/blossom.webp',
+  fuji: assetUrl('/assets/journal/photos/fuji.webp'),
+  blossom: assetUrl('/assets/journal/photos/blossom.webp'),
 };
 
 export const categoryFor = (label) =>

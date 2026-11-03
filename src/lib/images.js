@@ -1,25 +1,18 @@
 import { ILLUSTRATIONS, PHOTOS } from '../data/seedJournals';
+import { assetUrl } from './assets';
 
 export const cardImage = (illustration) =>
   (ILLUSTRATIONS[illustration] || ILLUSTRATIONS.cycling).src;
 
 export const photoSources = Object.values(PHOTOS);
 
-export const coverCyclist = '/assets/journal/cyclist-cover.png';
-export const successCyclist = '/assets/journal/cyclist-success.png';
+export const coverCyclist = assetUrl('/assets/journal/cyclist-cover.png');
+export const successCyclist = assetUrl('/assets/journal/cyclist-success.png');
 
 export function resolvePhoto(source) {
   if (!source) return '';
-  if (
-    source.startsWith('/') ||
-    source.startsWith('http://') ||
-    source.startsWith('https://') ||
-    source.startsWith('data:') ||
-    source.startsWith('blob:')
-  ) {
-    return source;
-  }
-  return PHOTOS[source] || source;
+  if (PHOTOS[source]) return PHOTOS[source];
+  return assetUrl(source);
 }
 
 export async function fileToCompressedDataUrl(file, maxSize = 1400) {

@@ -1,24 +1,30 @@
-const CACHE_NAME = 'eternal-chronicle-v2';
+const CACHE_NAME = 'eternal-chronicle-v3';
+
+// The worker lives at <base>/sw.js, so its own directory is the site base.
+// Resolving assets relatively keeps the PWA working under /<repo>/ on GitHub Pages.
+const BASE_URL = new URL('./', self.location.href).href;
+const OFFLINE_URL = new URL('index.html', BASE_URL).href;
+const urlFor = (path) => new URL(path.replace(/^\/+/, ''), BASE_URL).href;
 
 const STATIC_ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png',
-  '/fonts/inter-latin.woff2',
-  '/assets/journal/categories/holiday.webp',
-  '/assets/journal/categories/surprise.webp',
-  '/assets/journal/categories/daily.webp',
-  '/assets/journal/categories/sports.webp',
-  '/assets/journal/cards/cycling.webp',
-  '/assets/journal/cards/photography.webp',
-  '/assets/journal/cards/travel.webp',
-  '/assets/journal/cards/office.webp',
-  '/assets/journal/photos/fuji.webp',
-  '/assets/journal/photos/blossom.webp',
-  '/assets/journal/cyclist-cover.png',
-  '/assets/journal/cyclist-success.png'
+  BASE_URL,
+  OFFLINE_URL,
+  urlFor('manifest.json'),
+  urlFor('icons/icon-192.png'),
+  urlFor('icons/icon-512.png'),
+  urlFor('fonts/inter-latin.woff2'),
+  urlFor('assets/journal/categories/holiday.webp'),
+  urlFor('assets/journal/categories/surprise.webp'),
+  urlFor('assets/journal/categories/daily.webp'),
+  urlFor('assets/journal/categories/sports.webp'),
+  urlFor('assets/journal/cards/cycling.webp'),
+  urlFor('assets/journal/cards/photography.webp'),
+  urlFor('assets/journal/cards/travel.webp'),
+  urlFor('assets/journal/cards/office.webp'),
+  urlFor('assets/journal/photos/fuji.webp'),
+  urlFor('assets/journal/photos/blossom.webp'),
+  urlFor('assets/journal/cyclist-cover.png'),
+  urlFor('assets/journal/cyclist-success.png')
 ];
 
 self.addEventListener('install', (event) => {
@@ -53,7 +59,9 @@ self.addEventListener('fetch', (event) => {
 
   if (request.mode === 'navigate') {
     event.respondWith(
-      fetch(request).catch(() => caches.match('/index.html'))
+      fetch(request).catch(() =>
+        caches.match(OFFLINE_URL).then((cached) => cached || caches.match(BASE_URL))
+      )
     );
     return;
   }

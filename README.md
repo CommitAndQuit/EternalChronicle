@@ -46,7 +46,26 @@ npm install
 npm run dev
 ```
 
+The dev server uses the same GitHub Pages base path, so open:
+```text
+http://localhost:5173/EternalChronicle/
+```
+
 To build the application:
 ```bash
 npm run build
+```
+
+## Deployment (GitHub Pages)
+
+The app is configured to publish as a GitHub Pages project site at:
+```text
+https://commitandquit.github.io/EternalChronicle/
+```
+
+Pushing to `main` runs `.github/workflows/deploy.yml`, which builds the site and publishes `dist/`. In the repository's **Settings → Pages**, set the source to **GitHub Actions** once.
+
+Vite's base path defaults to `/EternalChronicle/`. The workflow derives it from the repository name so forks work without edits. To build for a different path manually:
+```bash
+VITE_BASE_PATH=/my-repo/ npm run build
 ```
